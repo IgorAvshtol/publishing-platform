@@ -1,6 +1,6 @@
 import { Divider, Flex, Text } from '@chakra-ui/react';
 
-import { Tags } from '../Tags';
+import { Tags } from '../Tags/Tags';
 import { Links } from 'components/Links';
 import { sidebarStyle } from 'styles/sidebar';
 import { useAppSelector } from 'store/store';
@@ -13,8 +13,8 @@ export function Sidebar() {
         <Text fontSize='12px' fontWeight='bold'>DISCOVER MORE OF WHAT MATTERS TO YOU</Text>
         <Flex pt='4' wrap='wrap' justifyContent='flex-start'>
           <Tags/>
-          <Divider w={user ? { lg: '83%', sm:'100%' } : '100%'} mt='2' mb='2' bgColor='gray.400'/>
-          <Flex w='90%' display={{ lg:'flex', md: 'none', sm: 'none' }} wrap='wrap'>
+          <Divider w={user ? { lg: '83%', sm: '100%' } : '100%'} mt='2' mb='2' bgColor='gray.400'/>
+          <Flex w='90%' display={{ lg: 'flex', md: 'none', sm: 'none' }} wrap='wrap'>
             <Links/>
           </Flex>
         </Flex>

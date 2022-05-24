@@ -2,21 +2,21 @@ import { Avatar, Button, Divider, Flex, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
 import { Links } from 'components/Links';
-import { articlesService } from 'services/articlesService';
 import { useAppSelector } from 'store/store';
+import { platformService } from 'services/platformService';
 
 
 export function Sidebar() {
   const router = useRouter();
   const { index } = router.query;
-  const { data } = articlesService.useGetCurrentArticleQuery(index as string);
+  const { data } = platformService.useGetCurrentArticleQuery(index as string);
   const { user } = useAppSelector((state) => state.auth);
   const author = data?.article.author.username;
   const currentUserName = user?.username;
 
   return (
       <Flex pos='sticky' top='24' ml='4' direction='column' w={{ xl: '100%', lg: '85' }} className='sticky top-24 ml-4 flex-col xl:w-full lg:w-4/5'>
-        <Avatar src={user?.image} size='lg'/>
+        <Avatar src={data?.article.author.image} size='lg'/>
         <Text pt='2' fontWeight='bold' fontSize='16'>{author}</Text>
         {currentUserName !== author && (
             <Flex pt='1' w='100%' className='pt-1 w-full flex'>

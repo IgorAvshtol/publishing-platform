@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router';
 import { Flex } from '@chakra-ui/react';
 
-import { articlesService } from 'services/articlesService';
 import { Description } from './Description';
 import { Header } from './Header';
+import { platformService } from 'services/platformService';
 
 
 export function Content() {
   const router = useRouter();
   const { index } = router.query;
-  const { data } = articlesService.useGetCurrentArticleQuery(index as string);
+  const { data } = platformService.useGetCurrentArticleQuery(index as string);
   const currentArticle = data?.article;
 
   return (

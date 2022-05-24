@@ -1,10 +1,13 @@
 import { nanoid } from 'nanoid';
-import { Tag } from './Tag';
 import { Flex, Spinner, Text } from '@chakra-ui/react';
-import { tagsService } from 'services/tagsService';
+
+import { Tag } from './Tag';
+import { platformService } from 'services/platformService';
+
 
 export function Tags() {
-  const { data, isLoading, isError } = tagsService.useGetAllTgsQuery('');
+  const { data, isLoading, isError } = platformService.useGetAllTagsQuery('');
+
   return (
       <Flex w='100%' wrap='wrap' justifyContent='center'>
         {isError &&

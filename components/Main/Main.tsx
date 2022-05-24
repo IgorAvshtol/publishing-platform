@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 
 import { Title } from './Title';
-import { Articles } from 'components/Articles';
+import { Articles } from 'components/Articles/Articles';
 import { Sidebar } from 'components/Sidebar';
 import { useAppSelector } from 'store/store';
 import { Navbar } from '../Navbar';

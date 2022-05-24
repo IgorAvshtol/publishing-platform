@@ -8,6 +8,7 @@ interface IArticleDescription {
   body: string;
 }
 
+
 export function Description({ title, description, body }: IArticleDescription) {
   return (
       <Flex direction='column' w='100%' mt='4'>

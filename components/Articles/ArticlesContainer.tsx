@@ -1,7 +1,7 @@
 import { TabList, TabPanel, Tabs } from '@chakra-ui/tabs';
 import { Flex, Tab, TabPanels } from '@chakra-ui/react';
 
-import { Articles } from './index';
+import { Articles } from './Articles';
 import { MyArticles } from './MyArticles';
 
 

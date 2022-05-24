@@ -1,16 +1,13 @@
 import { nanoid } from 'nanoid';
 import { format } from 'date-fns';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Avatar, Box, Flex, Heading, Text } from '@chakra-ui/react';
-
-import add from 'public/images/add.svg';
-import lens from 'public/images/lens.webp';
-import like from 'public/images/like.png';
-import dislike from 'public/images/dislike.png';
+import { Avatar, Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { BsListCheck, BsSuitHeartFill } from 'react-icons/bs';
 
 import { Topic } from '../Topic';
 import { ResponseImage } from '../ResponseImage';
+import lens from 'public/images/lens.webp';
+import { platformService } from 'services/platformService';
 
 export interface IPost {
   avatar: string;
@@ -24,20 +21,22 @@ export interface IPost {
   tagList: string[];
 }
 
+
 export function Article(props: IPost) {
-  const {
-    author,
-    avatar,
-    description,
-    title,
-    createdAt,
-    tagList,
-    favoritesCount,
-    slug,
-    favorited,
-  } = props;
+  const { author, avatar, description, title, createdAt, tagList, favoritesCount, slug, favorited, } = props;
+
+  const [like] = platformService.useLikeMutation();
+  const [dislike] = platformService.useDislikeMutation();
 
   const correctDate = format(new Date(createdAt), 'MMMd');
+
+  const onLikeButtonClickHandler = async () => {
+    if (!favorited) {
+      await like(slug);
+    } else {
+      await dislike(slug);
+    }
+  };
 
 
   return (
@@ -50,14 +49,16 @@ export function Article(props: IPost) {
                 <Text ml='2'>{author}</Text>
               </Flex>
             </Link>
-            <Flex w='65px' h='25px' justifyContent='space-between' alignItems='center' px='1' bgColor='green.100' borderRightRadius='35px' borderLeftRadius='35px'>
-              <Image src={favorited ? like : dislike} alt='favorite' width={18} height={15}/>
-              <Text className='text-xs xl:text-base lg:text-base md:text-base sm:text-base' fontSize={{ md: '16px', sm: '12px' }}>
-                {favoritesCount}
-              </Text>
-            </Flex>
+            <Button p='0' onClick={onLikeButtonClickHandler}>
+              <Flex w='65px' h='25px' justifyContent='space-between' alignItems='center' px='1' bgColor='green.100' borderRightRadius='35px' borderLeftRadius='35px'>
+                <BsSuitHeartFill size='14' color={favorited ? 'red' : 'black'}/>
+                <Text className='text-xs xl:text-base lg:text-base md:text-base sm:text-base' fontSize={{ md: '14px', sm: '12px' }}>
+                  {favoritesCount}
+                </Text>
+              </Flex>
+            </Button>
           </Flex>
-          <Link href={`/${slug}`}>
+          <Link href={`/articles/${slug}`}>
             <Heading as='h2' pt='2' fontWeight='bold' fontSize={{ md: '20px', sm: '16px' }} cursor='pointer'>
               {title}
             </Heading>
@@ -82,9 +83,7 @@ export function Article(props: IPost) {
               )}
             </Flex>
             <Link href='/'>
-              <Box fill='white'>
-                <ResponseImage src={add} alt='favorite' w={{ md: '6', sm: '5' }} layout='responsive'/>
-              </Box>
+              <BsListCheck size='24'/>
             </Link>
           </Flex>
         </Flex>

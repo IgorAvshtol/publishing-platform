@@ -1,23 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
-import { articlesService } from 'services/articlesService';
 import { authReducer } from './auth/authSlice';
-import { authService } from 'services/authService';
-import { tagsService } from 'services/tagsService';
-import { profileService } from 'services/profileService';
+import { platformService } from 'services/platformService';
 
 
 export const store = configureStore({
   reducer: {
     auth: authReducer.reducer,
-    [articlesService.reducerPath]: articlesService.reducer,
-    [authService.reducerPath]: authService.reducer,
-    [tagsService.reducerPath]: tagsService.reducer,
-    [profileService.reducerPath]: profileService.reducer,
+    [platformService.reducerPath]: platformService.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(articlesService.middleware, authService.middleware, tagsService.middleware, profileService.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(platformService.middleware)
 });
 
 export type AppRootState = ReturnType<typeof store.getState>;

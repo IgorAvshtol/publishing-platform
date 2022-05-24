@@ -1,14 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 import { Divider, Flex } from '@chakra-ui/react';
+import { AiOutlineHome } from 'react-icons/ai';
+import { BsBookmark, BsPencilSquare } from 'react-icons/bs';
 
 import logo from 'public/images/logo.png';
-import home from 'public/images/home.png';
-import write from 'public/images/write.png';
-import lists from 'public/images/lists.png';
 import { useAppSelector } from 'store/store';
 import { ResponseImage } from './ResponseImage';
 import { DropDownMenu } from './Menu';
+
 
 export function Navbar() {
   const { user } = useAppSelector((state) => state.auth);
@@ -21,16 +21,22 @@ export function Navbar() {
         <Flex direction={{ xl: 'column', lg: 'column', md: 'row', sm: 'row' }} alignItems='center' justifyContent={user ? { md: 'space-around', sm: 'space-between' } : { md: 'space-around', sm: 'space-center' }}
               bottom='0' pos={{ md: 'fixed', sm: 'fixed' }} w={{ xl: '16', lg: '16', md: '83%', sm: '83%' }} h={{ xl: '100%', lg: '100vh', md: '12', sm: '12' }}>
           {user && <ResponseImage src={logo} alt='logo' w='9' h='9'/>}
-          <Flex w={{ lg: '100%', md: '30%', sm: '40%' }} direction={{ xl: 'column', lg: 'column', md: 'row', sm: 'row' }} justifyContent='space-between' alignItems='center'>
+          <Flex w={{ lg: '100%', md: '30%', sm: '40%' }} direction={{ xl: 'column', lg: 'column', md: 'row', sm: 'row' }} h='60' justifyContent='space-between' alignItems='center'>
             <Link href='/'>
-              <ResponseImage src={home} alt='home' w='9'/>
+              <a>
+                <AiOutlineHome size='29'/>
+              </a>
             </Link>
             <Link href='/'>
-              <ResponseImage src={lists} alt='lists' w='6'/>
+              <a>
+                <BsBookmark size='26'/>
+              </a>
             </Link>
             <Divider my='4' w='83%' bgColor='gray.300' display={{ xl: 'block', lg: 'block', md: 'none', sm: 'none' }}/>
             <Link href='/'>
-              <ResponseImage src={write} alt='write' w='6'/>
+              <a>
+                <BsPencilSquare size='26'/>
+              </a>
             </Link>
           </Flex>
           {user && <DropDownMenu/>}

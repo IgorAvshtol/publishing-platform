@@ -2,13 +2,13 @@ import { Flex, Spinner } from '@chakra-ui/react';
 
 import { Article } from './Article';
 import notFound from '/public/images/404-not-found.png';
-import { articlesService } from 'services/articlesService';
 import { ResponseImage } from '../ResponseImage';
 import { useAppSelector } from 'store/store';
+import { platformService } from 'services/platformService';
 
 
 export function Articles() {
-  const { data, isLoading, isError } = articlesService.useGetAllArticlesQuery('');
+  const { data, isLoading, isError } = platformService.useGetAllArticlesQuery('');
   const { user } = useAppSelector(state => state.auth);
   const articles = data?.articles;
 

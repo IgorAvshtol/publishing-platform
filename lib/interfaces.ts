@@ -60,3 +60,24 @@ export interface IGetArticles {
   articlesCount: number;
 }
 
+export interface IGetComments {
+  comments: IComment[];
+}
+
+export interface IComment {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  body: string;
+  author: IAuthor;
+}
+
+export interface ICreateComment {
+  slug: string | undefined;
+  comment: string;
+}
+
+export interface IDeleteComment {
+  slug: string;
+  id: number;
+}

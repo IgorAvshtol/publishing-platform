@@ -4,12 +4,12 @@ import { ResponseImage } from './ResponseImage';
 import { useAppDispatch } from 'store/store';
 import avatar from 'public/images/avatar.png';
 import { logout } from 'store/auth/authSlice';
-import { articlesService } from 'services/articlesService';
+import { platformService } from 'services/platformService';
 
 
 export function DropDownMenu() {
   const dispatch = useAppDispatch();
-  const fetchArticles = articlesService.useGetAllArticlesQuery('');
+  const fetchArticles = platformService.useGetAllArticlesQuery('');
 
   const onLogoutClickHandler = () => {
     dispatch(logout());

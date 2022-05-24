@@ -8,6 +8,7 @@ interface IModal {
   children: ReactNode;
 }
 
+
 export function VerticallyCenter({ children }: IModal) {
   const dispatch = useAppDispatch();
   const { onClose } = useDisclosure();

@@ -9,11 +9,10 @@ import {
 } from '@chakra-ui/react';
 import { mutate } from 'swr';
 
-import { authService } from 'services/authService';
+import { platformService } from 'services/platformService';
 import { closeModal } from 'store/auth/authSlice';
 import { useAppDispatch } from 'store/store';
 import { setUserFromLocalStorage } from 'services/localStorage';
-import { articlesService } from 'services/articlesService';
 
 export interface ISignUpData {
   name: string;
@@ -21,10 +20,11 @@ export interface ISignUpData {
   password: string;
 }
 
+
 export function SignUpForm() {
   const dispatch = useAppDispatch();
-  const [registration, { isLoading, error }] = authService.useRegistrationMutation();
-  const fetchArticles = articlesService.useGetAllArticlesQuery('');
+  const [registration, { isLoading, error }] = platformService.useRegistrationMutation();
+  const fetchArticles = platformService.useGetAllArticlesQuery('');
   const errorMessage = error as string;
 
   const {

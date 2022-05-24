@@ -7,6 +7,7 @@ const ChakraNextUnwrappedImage = chakra(Image, {
       ['width', 'height', 'src', 'alt', 'layout'].includes(prop),
 });
 
+
 export const ResponseImage = forwardRef((props: ImageProps & BoxProps, ref: ForwardedRef<HTMLAnchorElement>) => {
   const { src, alt, width, height, layout, objectFit, ...rest } = props;
   return (

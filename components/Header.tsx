@@ -10,6 +10,7 @@ interface IHeader {
   purpose: boolean;
 }
 
+
 export function Header({ purpose }: IHeader) {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(state => state.auth);

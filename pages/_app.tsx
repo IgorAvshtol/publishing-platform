@@ -2,9 +2,9 @@ import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
-import '../styles/animation.css';
+import 'styles/animation.css';
 import { store } from 'store/store';
-import { Layout } from '../components/Layout';
+import { Layout } from 'components/Layout';
 
 const breakpoints = {
   sm: '320px',
@@ -34,6 +34,7 @@ const theme = extendTheme({
     },
   }
 });
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

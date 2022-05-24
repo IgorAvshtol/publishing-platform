@@ -2,11 +2,10 @@ import { useForm } from 'react-hook-form';
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, Text } from '@chakra-ui/react';
 import { mutate } from 'swr';
 
-import { authService } from 'services/authService';
+import { platformService } from 'services/platformService';
 import { setUserFromLocalStorage } from 'services/localStorage';
 import { useAppDispatch } from 'store/store';
 import { closeModal } from 'store/auth/authSlice';
-import { articlesService } from 'services/articlesService';
 
 export interface ISignInData {
   email: string;
@@ -16,8 +15,8 @@ export interface ISignInData {
 
 export function SignInForm() {
   const dispatch = useAppDispatch();
-  const [login, { isLoading, error }] = authService.useLoginMutation();
-  const fetchArticles = articlesService.useGetAllArticlesQuery('');
+  const [login, { isLoading, error }] = platformService.useLoginMutation();
+  const fetchArticles = platformService.useGetAllArticlesQuery('');
   const errorMessage = error as string;
 
   const {
