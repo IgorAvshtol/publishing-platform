@@ -1,29 +1,37 @@
 import { useForm } from 'react-hook-form';
-import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, Text } from '@chakra-ui/react';
+import { Button, Flex, Input, Text } from '@chakra-ui/react';
 import { mutate } from 'swr';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
-import { platformService } from 'services/platformService';
+import { articlesService } from 'services/articlesService';
 import { setUserFromLocalStorage } from 'services/localStorage';
 import { useAppDispatch } from 'store/store';
 import { closeModal } from 'store/auth/authSlice';
+import { authService } from 'services/authService';
 
 export interface ISignInData {
   email: string;
   password: string;
 }
 
+const schema = yup.object({
+  email: yup.string().required(),
+  password: yup.string().min(8, 'Password must contain at least 8 characters.').required(),
+}).required();
+
 
 export function SignInForm() {
   const dispatch = useAppDispatch();
-  const [login, { isLoading, error }] = platformService.useLoginMutation();
-  const fetchArticles = platformService.useGetAllArticlesQuery('');
+  const [login, { isLoading, error }] = authService.useLoginMutation();
+  const fetchArticles = articlesService.useGetAllArticlesQuery('');
   const errorMessage = error as string;
 
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<ISignInData>({ defaultValues: { email: '', password: '' } });
+  } = useForm<ISignInData>({ resolver: yupResolver(schema), defaultValues: { email: '', password: '' } });
   const onSubmit = (data: ISignInData) => onSubmitHandler(data);
 
   const onSubmitHandler = async (data: ISignInData) => {
@@ -37,42 +45,32 @@ export function SignInForm() {
   return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <Flex direction='column' justifyContent='space-between' alignItems='center'>
-          <FormControl isRequired>
-            <Flex direction='column' justifyContent='center' alignItems='center'>
-              <FormLabel htmlFor='email'>Email</FormLabel>
-              <Input
-                  type='email'
-                  id='email'
-                  placeholder='email'
-                  {...register('email', {
-                    required: 'This is required',
-                  })}
-                  _placeholder={{ color: 'gray.400' }}
-              />
-              <FormErrorMessage>
-                {errors.email && errors.email.message}
-              </FormErrorMessage>
-            </Flex>
-          </FormControl>
-
-          <FormControl isRequired isInvalid={!!errors.password}>
-            <Flex direction='column' justifyContent='center' alignItems='center' mt='2'>
-              <FormLabel htmlFor='password'>Password</FormLabel>
-              <Input
-                  type='password'
-                  id='password'
-                  placeholder='password'
-                  {...register('password', {
-                    required: 'This is required',
-                    minLength: { value: 8, message: 'Minimum length should be 8' },
-                  })}
-                  _placeholder={{ color: 'gray.400' }}
-              />
-              <FormErrorMessage>
-                {errors.password && errors.password.message}
-              </FormErrorMessage>
-            </Flex>
-          </FormControl>
+          <Flex w='100%' direction='column' justifyContent='center' alignItems='center'>
+            <label htmlFor='email'>Email</label>
+            <Input
+                type='email'
+                id='email'
+                placeholder='email'
+                {...register('email')}
+                _placeholder={{ color: 'gray.400' }}
+            />
+            <Text fontSize='14px' color='red'>
+              {errors.email && errors.email.message}
+            </Text>
+          </Flex>
+          <Flex w='100%' direction='column' justifyContent='center' alignItems='center' mt='2'>
+            <label htmlFor='password'>Password</label>
+            <Input
+                type='password'
+                id='password'
+                placeholder='password'
+                {...register('password')}
+                _placeholder={{ color: 'gray.400' }}
+            />
+            <Text fontSize='14px' color='red'>
+              {errors.password && errors.password.message}
+            </Text>
+          </Flex>
           <Text color='red'>{errorMessage}</Text>
           <Button mt={2} colorScheme='teal' isLoading={isLoading} type='submit'>
             Submit

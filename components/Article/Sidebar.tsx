@@ -3,13 +3,13 @@ import { useRouter } from 'next/router';
 
 import { Links } from 'components/Links';
 import { useAppSelector } from 'store/store';
-import { platformService } from 'services/platformService';
+import { articlesService } from 'services/articlesService';
 
 
 export function Sidebar() {
   const router = useRouter();
   const { index } = router.query;
-  const { data } = platformService.useGetCurrentArticleQuery(index as string);
+  const { data } = articlesService.useGetCurrentArticleQuery(index as string);
   const { user } = useAppSelector((state) => state.auth);
   const author = data?.article.author.username;
   const currentUserName = user?.username;

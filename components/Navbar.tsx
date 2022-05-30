@@ -33,7 +33,7 @@ export function Navbar() {
               </a>
             </Link>
             <Divider my='4' w='83%' bgColor='gray.300' display={{ xl: 'block', lg: 'block', md: 'none', sm: 'none' }}/>
-            <Link href='/'>
+            <Link href='/new-article'>
               <a>
                 <BsPencilSquare size='26'/>
               </a>

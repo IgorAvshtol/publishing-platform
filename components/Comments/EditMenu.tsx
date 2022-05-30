@@ -1,7 +1,7 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
-import { platformService } from 'services/platformService';
+import { commentsService } from 'services/commentsService';
 
 interface IEditMenu {
   id: number,
@@ -12,10 +12,12 @@ export function EditMenu({ id }: IEditMenu) {
   const router = useRouter();
   const { index } = router.query;
   const slug = index as string;
-  const [deleteComment] = platformService.useDeleteCommentMutation();
+  const data = commentsService.useGetAllCommentsQuery(slug);
+  const [deleteComment] = commentsService.useDeleteCommentMutation();
 
   const onDeleteButtonHandler = async () => {
     await deleteComment({ slug, id });
+    data.refetch();
   };
 
   return (

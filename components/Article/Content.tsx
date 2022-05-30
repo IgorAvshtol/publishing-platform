@@ -3,13 +3,13 @@ import { Flex } from '@chakra-ui/react';
 
 import { Description } from './Description';
 import { Header } from './Header';
-import { platformService } from 'services/platformService';
+import { articlesService } from 'services/articlesService';
 
 
 export function Content() {
   const router = useRouter();
   const { index } = router.query;
-  const { data } = platformService.useGetCurrentArticleQuery(index as string);
+  const { data } = articlesService.useGetCurrentArticleQuery(index as string);
   const currentArticle = data?.article;
 
   return (

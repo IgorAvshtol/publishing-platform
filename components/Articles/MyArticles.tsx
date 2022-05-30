@@ -2,12 +2,12 @@ import { Flex, Text } from '@chakra-ui/react';
 
 import { useAppSelector } from 'store/store';
 import { Article } from './Article';
-import { platformService } from 'services/platformService';
+import { articlesService } from 'services/articlesService';
 
 
 export function MyArticles() {
   const { user } = useAppSelector((state) => state.auth);
-  const { data } = platformService.useGetCurrentUserArticlesQuery(`${user?.username}`);
+  const { data } = articlesService.useGetCurrentUserArticlesQuery(`${user?.username}`);
 
   return (
       <Flex w='100%' direction='column' alignItems='center'>

@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 
 import { InputBlock } from './InputBlock';
-import { platformService } from 'services/platformService';
 import { Comment } from './Comment';
+import { commentsService } from 'services/commentsService';
 
 interface IComments {
   isOpen: boolean;
@@ -17,9 +17,9 @@ export function Comments({ isOpen, onClose }: IComments) {
   const { index } = router.query;
   const slug = index as string;
 
-  const data = platformService.useGetAllCommentsQuery(slug);
+  const data = commentsService.useGetAllCommentsQuery(slug);
   const { data: fetchComments } = data;
-  const [createComment] = platformService.useCreateCommentMutation();
+  const [createComment] = commentsService.useCreateCommentMutation();
   const [commentText, setCommentText] = useState<string>('');
 
   const onChangeInputHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -28,6 +28,7 @@ export function Comments({ isOpen, onClose }: IComments) {
 
   const onClickSendButton = async () => {
     await createComment({ slug, comment: commentText });
+    data.refetch();
     setCommentText('');
   };
 

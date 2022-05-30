@@ -81,3 +81,18 @@ export interface IDeleteComment {
   slug: string;
   id: number;
 }
+
+export interface INewArticle {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}
+
+export interface IUpdateArticle {
+  slug: string;
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}

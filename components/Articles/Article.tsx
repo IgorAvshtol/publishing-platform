@@ -7,7 +7,8 @@ import { BsListCheck, BsSuitHeartFill } from 'react-icons/bs';
 import { Topic } from '../Topic';
 import { ResponseImage } from '../ResponseImage';
 import lens from 'public/images/lens.webp';
-import { platformService } from 'services/platformService';
+import { articlesService } from 'services/articlesService';
+import { useAppDispatch } from '../../store/store';
 
 export interface IPost {
   avatar: string;
@@ -25,8 +26,9 @@ export interface IPost {
 export function Article(props: IPost) {
   const { author, avatar, description, title, createdAt, tagList, favoritesCount, slug, favorited, } = props;
 
-  const [like] = platformService.useLikeMutation();
-  const [dislike] = platformService.useDislikeMutation();
+  const [like] = articlesService.useLikeMutation();
+  const [dislike] = articlesService.useDislikeMutation();
+  const data = articlesService.useGetAllArticlesQuery('');
 
   const correctDate = format(new Date(createdAt), 'MMMd');
 
@@ -36,8 +38,8 @@ export function Article(props: IPost) {
     } else {
       await dislike(slug);
     }
+    data.refetch();
   };
-
 
   return (
       <Flex w='100%' py='6' justifyContent='space-between' borderBottom='1px' borderColor='gray.300'>

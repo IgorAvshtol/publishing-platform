@@ -26,7 +26,7 @@ export const axiosBaseQuery =
       data?: AxiosRequestConfig['data']
       params?: AxiosRequestConfig['params']
     },
-        unknown, string> =>
+        unknown, unknown> =>
         async ({ url, method, data, params }) => {
           try {
             const result = await instance({ url: baseUrl + url, method, data, params });

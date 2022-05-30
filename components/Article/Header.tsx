@@ -6,7 +6,7 @@ import { BsFillPencilFill, BsListCheck, BsSuitHeartFill } from 'react-icons/bs';
 import { useRouter } from 'next/router';
 
 import { useAppSelector } from 'store/store';
-import { platformService } from 'services/platformService';
+import { articlesService } from 'services/articlesService';
 
 interface IArticleHeader {
   slug: string;
@@ -23,8 +23,9 @@ export function Header({ author, createdAt, tagList, favorited, favoritesCount, 
   const router = useRouter();
   const { index } = router.query;
   const { user } = useAppSelector((state) => state.auth);
-  const [like] = platformService.useLikeMutation();
-  const [dislike] = platformService.useDislikeMutation();
+  const [like] = articlesService.useLikeMutation();
+  const [dislike] = articlesService.useDislikeMutation();
+  const data = articlesService.useGetCurrentArticleQuery(index as string);
 
   const correctDate = format(new Date(createdAt), 'MMMd');
 
@@ -34,6 +35,7 @@ export function Header({ author, createdAt, tagList, favorited, favoritesCount, 
     } else {
       await dislike(index as string);
     }
+    data.refetch();
   };
 
   return (
@@ -53,7 +55,8 @@ export function Header({ author, createdAt, tagList, favorited, favoritesCount, 
                               href='/'
                               key={nanoid()}
                           >
-                            <Tag mb='1' ml='1' bgColor='gray.200' color='gray.400' rounded='full' fontSize={{ md: '16', sm: '12' }}>{tag}</Tag>
+                            <Tag mb='1' ml='1' bgColor='gray.200' color='gray.400' rounded='full'
+                                 fontSize={{ md: '16', sm: '12' }}>{tag}</Tag>
                           </Link>
                       ))}
                     </Flex>
@@ -64,8 +67,9 @@ export function Header({ author, createdAt, tagList, favorited, favoritesCount, 
         </Flex>
         <Flex w='14' direction='column' alignItems='start'>
           <Button
-              display='flex' w='100%' bgColor='green.200' justifyContent='space-between' alignItems='center' px='1.5' h='8' rounded='full'
-              _hover={{bg:'green.100'}}
+              display='flex' w='100%' bgColor='green.200' justifyContent='space-between' alignItems='center' px='1.5'
+              h='8' rounded='full'
+              _hover={{ bg: 'green.100' }}
               onClick={onLikeButtonClickHandler}
           >
             <BsSuitHeartFill size='12' color={favorited ? 'red' : 'black'}/>
@@ -74,8 +78,10 @@ export function Header({ author, createdAt, tagList, favorited, favoritesCount, 
           {user?.username === author && (
               <Flex w='100%' justifyContent='space-between' mt='2'>
                 <BsListCheck size='24'/>
-                <Link href={`/update-${slug}`}>
-                  <BsFillPencilFill size='22'/>
+                <Link href={`/update/${slug}`}>
+                  <a>
+                    <BsFillPencilFill size='22'/>
+                  </a>
                 </Link>
               </Flex>
           )}
